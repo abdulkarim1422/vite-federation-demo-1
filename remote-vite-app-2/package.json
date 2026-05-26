@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:watch": "concurrently \"vite build --watch\" \"vite preview --port 5201 --strictPort\"",
+  "build:watch": "concurrently -n BUILD,PREVIEW \"vite build --watch\" \"vite preview --port 5201 --strictPort\"",
     "lint": "eslint .",
     "preview": "vite preview"
   },
