@@ -6,7 +6,6 @@ import { BrowserRouter } from 'react-router-dom'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {/* Standalone: routes at remotedomain.com/*; assets still load from /mf/remote/* */}
     <BrowserRouter>
       <App />
     </BrowserRouter>

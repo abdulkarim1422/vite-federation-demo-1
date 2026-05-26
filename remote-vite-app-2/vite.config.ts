@@ -1,19 +1,43 @@
-import { defineConfig } from 'vite'
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import federation from '@originjs/vite-plugin-federation'
-import { standaloneRootSpa } from './plugins/standaloneRootSpa'
+
+const assetDir = 'mf/remote/assets'
+
+/** Federation emits remoteEntry to dist/assets/; host expects dist/mf/remote/assets/ */
+function moveRemoteEntry(): Plugin {
+  return {
+    name: 'move-remote-entry',
+    closeBundle: async () => {
+      const src = 'dist/assets/remoteEntry.js'
+      const dest = 'dist/mf/remote/assets/remoteEntry.js'
+      try {
+        await mkdir('dist/mf/remote/assets', { recursive: true })
+        let content = await readFile(src, 'utf8')
+        // Federation generates paths for dist/assets/; rewrite for dist/mf/remote/assets/
+        content = content
+          .replaceAll('./../mf/remote/assets/', './')
+          .replaceAll('../mf/remote/assets/', './')
+        await writeFile(dest, content)
+        await rm('dist/assets', { recursive: true, force: true })
+      } catch {
+        // no-op when file already moved or missing (e.g. dev)
+      }
+    },
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => {
-  // Detect when the npm script `build:watch` is running so we only
-  // enable the polling watch + emptyOutDir behavior for that script.
   const isBuildWatch = command === 'build' && process.env.npm_lifecycle_event === 'build:watch'
   const isHTTPS = process.env.npm_lifecycle_event === 'dev:https'
 
   return {
-    base: '/mf/remote/',
-    plugins: [react(), tailwindcss(), standaloneRootSpa(), federation(
+    // index.html at /; bundles at /mf/remote/assets/*
+    base: '/',
+    plugins: [react(), tailwindcss(), moveRemoteEntry(), federation(
       {
         name: 'remoteApp2',
         filename: 'remoteEntry.js',
@@ -25,30 +49,27 @@ export default defineConfig(({ command }) => {
       }
     )],
     build: {
-      outDir: 'dist/mf/remote',
-      sourcemap: false, // Don't generate source maps for production builds.
+      outDir: 'dist',
+      sourcemap: false,
       chunkSizeWarningLimit: 1000,
-      target: 'es2022', // or 'esnext' if you have issues with federation
+      target: 'es2022',
       minify: false,
       rollupOptions: {
         output: {
-          // Avoid `[name]-[hash]` so lazy chunks and assets are not labeled by source path / component name.
-          chunkFileNames: 'assets/[hash].js',
-          entryFileNames: 'assets/[hash].js',
-          assetFileNames: 'assets/[hash][extname]',
+          chunkFileNames: `${assetDir}/[hash].js`,
+          entryFileNames: `${assetDir}/[hash].js`,
+          assetFileNames: `${assetDir}/[hash][extname]`,
         },
       },
       ...(isBuildWatch
         ? {
-          // the chokidar-specific options used for polling on Windows.
           watch: ({
             chokidar: {
               usePolling: true,
               interval: 300,
             },
-            // Cast the watch object to `any` to satisfy Vite/Rollup typings for
-            } as any),
-          }
+          } as any),
+        }
         : {}),
     },
     server: {
