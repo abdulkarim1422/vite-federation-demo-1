@@ -38,7 +38,7 @@ export default defineConfig(({ command }) => {
         : {}),
     },
     server: {
-      port: 9830,
+      port: 5201,
       watch: {
         usePolling: true,
         interval: 300,
