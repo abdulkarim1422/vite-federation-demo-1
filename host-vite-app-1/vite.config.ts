@@ -12,4 +12,7 @@ export default defineConfig({
     },
     shared: ["react", "react-dom"],
   })],
+  server: {
+    port: 5200,
+  },
 })
