@@ -3,6 +3,7 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 import RemoteButton from 'remoteApp2/Button';
+import { Link } from 'react-router-dom';
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
           </p>
         </div>
           <RemoteButton />
+          <Link to="/app">App 2</Link>
+          <Link to="/main/app">Main App 2</Link>
+          <Link to="/remote/demo1">Remote Demo 1</Link>
+          <Link to="/remote/demo2">Remote Demo 2</Link>
       </section>
 
       <div className="ticks"></div>
