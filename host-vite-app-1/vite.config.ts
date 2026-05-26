@@ -8,7 +8,7 @@ export default defineConfig({
     name: "hostApp1",
     filename: "remoteEntry.js",
     remotes: {
-      remoteApp2: "remoteApp2@http://localhost:5201/assets/remoteEntry.js",
+      remoteApp2: "http://localhost:5201/assets/remoteEntry.js",
     },
     shared: ["react", "react-dom"],
   })],
