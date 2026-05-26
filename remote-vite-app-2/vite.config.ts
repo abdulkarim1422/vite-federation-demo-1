@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import federation from '@originjs/vite-plugin-federation'
+import { standaloneRootSpa } from './plugins/standaloneRootSpa'
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => {
@@ -12,7 +13,7 @@ export default defineConfig(({ command }) => {
 
   return {
     base: '/mf/remote/',
-    plugins: [react(), tailwindcss(), federation(
+    plugins: [react(), tailwindcss(), standaloneRootSpa(), federation(
       {
         name: 'remoteApp2',
         filename: 'remoteEntry.js',
