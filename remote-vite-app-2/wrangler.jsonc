@@ -7,8 +7,7 @@
     },
     "routes": [
         {
-            "pattern": "sub.domain.com",
-            "custom_domain": true
+            "pattern": "sub.domain.com"
         }
     ]
 }
