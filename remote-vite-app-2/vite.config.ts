@@ -20,7 +20,7 @@ export default defineConfig(({ command }) => {
           './Button': './src/components/Button.tsx',
           './App': './src/App.tsx',
         },
-        shared: ['react', 'react-dom'],
+        shared: ['react', 'react-dom', 'react-router-dom'],
       }
     )],
     build: {

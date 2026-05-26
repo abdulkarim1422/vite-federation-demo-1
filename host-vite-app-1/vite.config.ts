@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
           ? `${env.VITE_REMOTE_APP_2_URL}/mf/remote/assets/remoteEntry.js`
           : 'http://localhost:5201/mf/remote/assets/remoteEntry.js'
       },
-      shared: ["react", "react-dom"],
+      shared: ["react", "react-dom", "react-router-dom"],
     })],
     server: {
       port: 5200,
