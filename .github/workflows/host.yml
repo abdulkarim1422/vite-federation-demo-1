@@ -1,0 +1,42 @@
+name: host deployment (cloudflare workers)
+
+on:
+  push:
+    branches:
+    - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev1
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install project dependencies
+        run: npm install
+
+      - name: Build project
+        env:
+          VITE_REMOTE_APP_URL: ${{ vars.REMOTE_APP_2_URL }}
+        run: npm run build
+
+      - name: Install JavaScript Obfuscator & Obfuscate JavaScript files
+        run: |
+          npm install -g javascript-obfuscator
+          find dist -type f -name "*.js" -exec sh -c 'javascript-obfuscator "$0" --output "$0"' {} \;
+
+      - name: Install Wrangler
+        run: npm install -g wrangler
+
+      - name: Deploy to Cloudflare Workers
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: wrangler deploy

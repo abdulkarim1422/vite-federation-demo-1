@@ -1,0 +1,14 @@
+{
+    "name": "demo-vite-federation-1-host",
+    "compatibility_date": "2024-05-01",
+    "assets": {
+        "directory": "dist",
+        "not_found_behavior": "single-page-application"
+    },
+    "routes": [
+        {
+            "pattern": "sub.domain.com",
+            "custom_domain": true
+        }
+    ]
+}
