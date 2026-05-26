@@ -8,7 +8,7 @@
     "routes": [
         {
             "pattern": "sub.domain.com/my-path/*",
-            "zone_name": "sub.domain.com"
+            "zone_name": "domain.com"
         }
     ]
 }
