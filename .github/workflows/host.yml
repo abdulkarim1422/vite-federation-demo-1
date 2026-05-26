@@ -35,8 +35,9 @@ jobs:
 
       - name: Update wrangler config with environment variables
         run: |
-          jq '.routes[0].pattern = ${{ vars.HOST_APP_1_SUBDOMAIN }}' \
-          wrangler.jsonc > wrangler.local.jsonc
+          jq --arg pattern "${{ vars.HOST_APP_1_SUBDOMAIN }}" \
+            '.routes[0].pattern = $pattern' \
+            wrangler.jsonc > wrangler.local.jsonc
 
       - name: Install JavaScript Obfuscator & Obfuscate JavaScript files
         run: |
