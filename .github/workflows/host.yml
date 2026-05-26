@@ -33,6 +33,11 @@ jobs:
           VITE_REMOTE_APP_URL: ${{ vars.REMOTE_APP_2_URL }}
         run: npm run build
 
+      - name: Update wrangler config with environment variables
+        run: |
+          jq '.routes[0].pattern = ${{ vars.HOST_APP_1_SUBDOMAIN }}' \
+          wrangler.jsonc > wrangler.local.jsonc
+
       - name: Install JavaScript Obfuscator & Obfuscate JavaScript files
         run: |
           npm install -g javascript-obfuscator
@@ -44,4 +49,4 @@ jobs:
       - name: Deploy to Cloudflare Workers
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: wrangler deploy
+        run: wrangler deploy --config wrangler.local.jsonc
