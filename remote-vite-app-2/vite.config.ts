@@ -11,6 +11,7 @@ export default defineConfig(({ command }) => {
   const isHTTPS = process.env.npm_lifecycle_event === 'dev:https'
 
   return {
+    base: '/mf/remote/',
     plugins: [react(), tailwindcss(), federation(
       {
         name: 'remoteApp2',
@@ -22,6 +23,7 @@ export default defineConfig(({ command }) => {
       }
     )],
     build: {
+      outDir: 'dist/mf/remote',
       sourcemap: false, // Don't generate source maps for production builds.
       chunkSizeWarningLimit: 1000,
       target: 'es2022', // or 'esnext' if you have issues with federation

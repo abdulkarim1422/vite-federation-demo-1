@@ -13,8 +13,8 @@ export default defineConfig(({ mode }) => {
       filename: "remoteEntry.js",
       remotes: {
         remoteApp2: env.REMOTE_APP_2_URL
-          ? `${env.REMOTE_APP_2_URL}/assets/remoteEntry.js`
-          : 'http://localhost:5201/assets/remoteEntry.js'
+          ? `${env.REMOTE_APP_2_URL}/mf/remote/assets/remoteEntry.js`
+          : 'http://localhost:5201/mf/remote/assets/remoteEntry.js'
       },
       shared: ["react", "react-dom"],
     })],
