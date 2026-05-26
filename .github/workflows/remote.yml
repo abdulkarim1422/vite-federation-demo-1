@@ -34,9 +34,8 @@ jobs:
       - name: Update wrangler config with environment variables
         run: |
           jq --arg pattern "${{ vars.REMOTE_APP_2_SUBDOMAIN }}" \
-          --arg zone_name "${{ vars.REMOTE_APP_2_ZONE_NAME }}" \
-            '.routes[0].pattern = $pattern' \
-            '.routes[0].zone_name = $zone_name' \
+            --arg zone_name "${{ vars.REMOTE_APP_2_ZONE_NAME }}" \
+            '.routes[0].pattern = $pattern | .routes[0].zone_name = $zone_name' \
             wrangler.jsonc > wrangler.local.jsonc
 
       - name: Install JavaScript Obfuscator & Obfuscate JavaScript files
