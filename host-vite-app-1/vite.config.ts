@@ -12,8 +12,8 @@ export default defineConfig(({ mode }) => {
       name: "hostApp1",
       filename: "remoteEntry.js",
       remotes: {
-        remoteApp2: env.REMOTE_APP_2_URL
-          ? `${env.REMOTE_APP_2_URL}/mf/remote/assets/remoteEntry.js`
+        remoteApp2: env.VITE_REMOTE_APP_2_URL
+          ? `${env.VITE_REMOTE_APP_2_URL}/mf/remote/assets/remoteEntry.js`
           : 'http://localhost:5201/mf/remote/assets/remoteEntry.js'
       },
       shared: ["react", "react-dom"],

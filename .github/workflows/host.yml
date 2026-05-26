@@ -30,7 +30,7 @@ jobs:
 
       - name: Build project
         env:
-          VITE_REMOTE_APP_URL: ${{ vars.REMOTE_APP_2_URL }}
+          VITE_REMOTE_APP_2_URL: ${{ vars.VITE_REMOTE_APP_2_URL }}
         run: npm run build
 
       - name: Update wrangler config with environment variables
