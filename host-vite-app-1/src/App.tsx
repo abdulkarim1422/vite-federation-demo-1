@@ -22,12 +22,7 @@ function App() {
             Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
         </div>
-        <div className="buttons">
-          <button onClick={() => setCount((count) => count + 1)}>
-            count is {count}
-          </button>
           <RemoteButton />
-        </div>
       </section>
 
       <div className="ticks"></div>
