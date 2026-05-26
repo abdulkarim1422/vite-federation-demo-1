@@ -28,7 +28,6 @@ export default defineConfig(({ command }) => {
       sourcemap: false, // Don't generate source maps for production builds.
       chunkSizeWarningLimit: 1000,
       target: 'es2022', // or 'esnext' if you have issues with federation
-      emptyOutDir: true,
       minify: false,
       rollupOptions: {
         output: {
