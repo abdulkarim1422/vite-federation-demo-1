@@ -7,8 +7,8 @@ export default defineConfig({
   plugins: [react(), federation({
     name: "hostApp1",
     filename: "remoteEntry.js",
-    exposes: {
-      "./Button": "./src/Button.tsx",
+    remotes: {
+      remoteApp2: "remoteApp2@http://localhost:5201/remoteEntry.js",
     },
     shared: ["react", "react-dom"],
   })],

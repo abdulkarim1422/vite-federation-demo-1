@@ -1,18 +1,20 @@
 {
-  "name": "host-vite-app-2",
+  "name": "remote-vite-app-2",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:watch": "vite build --watch & vite preview --port 5201 --strictPort",
+    "build:watch": "vite build --watch & PORT=9830 npx servor dist",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.3.0",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
