@@ -1,0 +1,50 @@
+name: remote deployment (cloudflare workers)
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+      - 'remote-vite-app-2/**'
+      - '.github/workflows/remote.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: main
+    defaults:
+      run:
+        working-directory: remote-vite-app-2
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install project dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Update wrangler config with environment variables
+        run: |
+          jq '.routes[0].pattern = ${{ vars.REMOTE_APP_2_SUBDOMAIN }}' \
+          wrangler.jsonc > wrangler.local.jsonc
+
+      - name: Install JavaScript Obfuscator & Obfuscate JavaScript files
+        run: |
+          npm install -g javascript-obfuscator
+          find dist -type f -name "*.js" -exec sh -c 'javascript-obfuscator "$0" --output "$0"' {} \;
+
+      - name: Install Wrangler
+        run: npm install -g wrangler
+
+      - name: Deploy to Cloudflare Workers
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: wrangler deploy --config wrangler.local.jsonc
