@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import federation from '@originjs/vite-plugin-federation'
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => {
@@ -10,7 +11,16 @@ export default defineConfig(({ command }) => {
   const isHTTPS = process.env.npm_lifecycle_event === 'dev:https'
 
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [react(), tailwindcss(), federation(
+      {
+        name: 'remoteApp2',
+        filename: 'remoteEntry.js',
+        exposes: {
+          './Button': './src/components/Button.tsx',
+        },
+        shared: ['react', 'react-dom'],
+      }
+    )],
     build: {
       sourcemap: false, // Don't generate source maps for production builds.
       chunkSizeWarningLimit: 1000,

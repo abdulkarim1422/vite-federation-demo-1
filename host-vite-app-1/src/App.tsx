@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
+import RemoteButton from 'remoteApp2/Button';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -21,13 +22,12 @@ function App() {
             Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+        <div className="buttons">
+          <button onClick={() => setCount((count) => count + 1)}>
+            count is {count}
+          </button>
+          <RemoteButton />
+        </div>
       </section>
 
       <div className="ticks"></div>
