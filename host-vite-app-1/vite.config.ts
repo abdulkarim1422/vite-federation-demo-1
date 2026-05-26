@@ -1,19 +1,25 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import federation from "@originjs/vite-plugin-federation";
 import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [react(), tailwindcss(), federation({
-    name: "hostApp1",
-    filename: "remoteEntry.js",
-    remotes: {
-      remoteApp2: "http://localhost:5201/assets/remoteEntry.js",
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+
+  return {
+    plugins: [react(), tailwindcss(), federation({
+      name: "hostApp1",
+      filename: "remoteEntry.js",
+      remotes: {
+        remoteApp2: env.REMOTE_APP_2_URL
+          ? `${env.REMOTE_APP_2_URL}/assets/remoteEntry.js`
+          : 'http://localhost:5201/assets/remoteEntry.js'
+      },
+      shared: ["react", "react-dom"],
+    })],
+    server: {
+      port: 5200,
     },
-    shared: ["react", "react-dom"],
-  })],
-  server: {
-    port: 5200,
-  },
+  }
 })
