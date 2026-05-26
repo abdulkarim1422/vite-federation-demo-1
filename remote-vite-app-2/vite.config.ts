@@ -26,6 +26,8 @@ export default defineConfig(({ command }) => {
       chunkSizeWarningLimit: 1000,
       target: 'es2022', // or 'esnext' if you have issues with federation
       emptyOutDir: true,
+      minify: false,
+      cssCodeSplit: false,
       rollupOptions: {
         output: {
           // Avoid `[name]-[hash]` so lazy chunks and assets are not labeled by source path / component name.
